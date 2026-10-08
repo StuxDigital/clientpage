@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Key files exist
+        run: |
+          set -euo pipefail
+          for f in index.html 404.html changelog.html legal.html legal/privacy.html legal/terms.html legal/cookies.html legal/imprint.html legal/disclaimer.html legal/opt-out.html sitemap/index.html sitemap.xml robots.txt CNAME assets/css/site.css assets/js/site.js assets/js/changelog.js assets/dev-mode.js README.md CHANGELOG.md VERSION.md CONTRIBUTING.md commit.sh commit.bat dev-server.sh dev-server.bat; do
+            if [ ! -f "$f" ]; then echo "::error::Missing $f"; exit 1; fi
+          done
+
+      - name: VERSION.md has a matching CHANGELOG.md release
+        run: |
+          set -euo pipefail
+          V="$(tr -d '[:space:]' < VERSION.md)"
+          grep -Eq "^## \\[?v?${V//./\\.}\\]?([[:space:]]|$)" CHANGELOG.md || { echo "::error::CHANGELOG.md has no release heading for $V"; exit 1; }
+
+      - name: Validate HTML
+        run: npx --yes html-validate@8 index.html 404.html changelog.html legal.html legal/*.html sitemap/index.html
+
+      - name: Lint Markdown
+        run: npx --yes markdownlint-cli@0.41 "**/*.md" --ignore node_modules

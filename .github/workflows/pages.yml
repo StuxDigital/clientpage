@@ -1,0 +1,41 @@
+name: Deploy Pages
+
+# GitHub's legacy branch-deploy Pages build relies on an internal
+# push-triggered hook with no API/log visibility, and it can silently stop
+# auto-triggering with no error recorded anywhere. Deploying via Actions
+# instead makes it an ordinary, observable CI job.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      # Publish only the site itself (upload-pages-artifact has no exclude option).
+      - name: Collect the site files
+        run: |
+          set -euo pipefail
+          mkdir _site
+          cp -r index.html 404.html changelog.html legal.html legal sitemap sitemap.xml robots.txt CNAME CHANGELOG.md VERSION.md assets _site/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

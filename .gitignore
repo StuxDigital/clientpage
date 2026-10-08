@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Local environment overrides / secrets (never commit)
+.env
+.env.*
+
+# Tooling
+node_modules/

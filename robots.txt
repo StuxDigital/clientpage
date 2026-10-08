@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://clientpage.stux.digital/sitemap.xml
