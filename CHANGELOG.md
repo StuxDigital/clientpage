@@ -5,6 +5,12 @@ All notable changes to clientpage are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-10-09
+
+### Fixed
+
+- The footer's copyright line names Stux.Digital instead of Stux.Group ("© 2026 Stux.Digital. All rights reserved."), matching the brand the site belongs to. The legal pages' statement that the names and logos belong to Stux.Group is unchanged
+
 ## [1.0.0] - 2026-10-08
 
 ### Added
