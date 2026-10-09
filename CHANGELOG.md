@@ -5,6 +5,13 @@ All notable changes to clientpage are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-10-09
+
+### Changed
+
+- The progress steps sit on one winding dotted path, like the path in the logo: it starts at the first step (the glowing Idea lightbulb) and winds through each step to the last, brighter as far as the current step. It replaces the separate background path, which ran to a lightbulb floating in the corner and could overlap it, and the straight dashed line between the steps
+- On phones the steps stay in one row (smaller dots, labels that may wrap), so the path stays a single wave instead of cutting across a 2×2 grid
+
 ## [1.0.1] - 2026-10-09
 
 ### Fixed
