@@ -82,6 +82,30 @@ code { font-family: var(--font-mono); font-size: 0.88em; background: var(--accen
 :root[data-theme="light"] .only-dark { display: none; }
 
 /* ── Background: soft sky glow and a dotted grid ── */
+/* The background path (site.js): the logo's winding dotted line from a glowing lightbulb, through
+   the progress steps where a page has them. It's drawn above the card but cut away under the bulb
+   and the step dots, so it reads as running into them. Pages without steps (legal, changelog…) keep
+   it behind the card, clear of the text. */
+.page-path { position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none; overflow: visible; }
+.page-path path {
+    fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 12;
+    animation: path-flow 9s linear infinite;
+}
+.page-path--behind, .path-bulb--behind { z-index: -1; }
+.page-path .track { stroke: rgba(var(--accent-rgb), 0.35); }
+.page-path .reached { stroke: var(--accent); }
+@keyframes path-flow { to { stroke-dashoffset: -280; } }
+.path-bulb {
+    position: absolute; z-index: 4; pointer-events: none;
+    display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(var(--accent-rgb), 0.4);
+    box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.35);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    animation: bulb 3.2s ease-in-out infinite;
+}
+.path-bulb[hidden] { display: none; }
+.path-bulb .ico { width: 24px; height: 24px; }
+@keyframes bulb { 50% { box-shadow: 0 0 64px rgba(var(--accent-rgb), 0.6); } }
 .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .bg::before {
     content: ""; position: absolute; inset: 0;
@@ -180,25 +204,13 @@ h1 em {
 }
 .lede { color: var(--muted); font-size: 1.02rem; max-width: 470px; margin: 0 auto 28px; }
 
-/* Progress steps on one winding dotted path, like the path in the logo: site.js draws it through
-   every step's dot, from the first step (the idea's lightbulb) to the last, brighter as far as
-   the current step. Done, in progress (pulsing), up next. */
+/* Progress steps, which the background path winds through (see .page-path). Done, in progress
+   (pulsing), up next. */
 .steps {
     list-style: none; margin: 0 0 30px; padding: 0;
     display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
     position: relative;
 }
-.steps-path {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    overflow: visible; pointer-events: none;
-}
-.steps-path path {
-    fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 10;
-    animation: path-flow 9s linear infinite;
-}
-.steps-path .track { stroke: rgba(var(--accent-rgb), 0.32); }
-.steps-path .reached { stroke: var(--accent); }
-@keyframes path-flow { to { stroke-dashoffset: -240; } }
 .step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .step-dot {
     display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
@@ -211,12 +223,6 @@ h1 em {
 .step--done .step-label { color: var(--muted); }
 .step--current .step-dot { border-color: var(--accent); color: var(--accent); animation: pulse 2s ease-out infinite; }
 .step--current .step-label { color: var(--accent-bright); }
-/* Where the path starts: the first step glows, like a lightbulb. */
-.step--done:first-child .step-dot { animation: bulb 3.2s ease-in-out infinite; }
-@keyframes bulb {
-    0%, 100% { box-shadow: 0 0 0 5px var(--card), 0 0 18px rgba(var(--accent-rgb), 0.35); }
-    50% { box-shadow: 0 0 0 5px var(--card), 0 0 34px rgba(var(--accent-rgb), 0.65); }
-}
 
 .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 .btn {
@@ -241,6 +247,14 @@ h1 em {
 .foot-links a:hover, .made a:hover { color: var(--text); }
 .copy-glyph { vertical-align: -1px; }
 .made-i { width: 13px; height: 13px; vertical-align: -2px; fill: currentColor; }
+/* The brand's logo, muted until hovered: deep on light, bright on dark (like the other brands' pages). */
+.powered { display: flex; align-items: center; justify-content: center; gap: .6rem; flex-wrap: wrap; margin: 12px 0 4px; font-size: 0.8rem; }
+.powered-item, .powered-item:visited { display: inline-flex; align-items: center; color: var(--muted); text-decoration: none; transition: color .2s; }
+.powered-item:hover, .powered-item:focus-visible { color: var(--text); }
+.powered-sep { color: var(--border-strong); }
+.powered-logo { height: 28px; width: auto; display: block; filter: grayscale(1); opacity: .55; transition: filter .2s, opacity .2s; }
+:root[data-theme="light"] .powered-logo { filter: grayscale(1) brightness(.6); }
+.powered-item:hover .powered-logo, .powered-item:focus-visible .powered-logo { filter: none; opacity: 1; }
 .made-love { color: #e5484d; }
 .made-code { color: #30a46c; }
 .made-coffee { color: #a0703f; }
@@ -325,6 +339,6 @@ h1 em {
 .site-banners { --banner-page-bg: var(--bg); --banner-text: var(--text); --banner-site: #38bdf8; --banner-site-light: #0369a1; }
 
 @media (prefers-reduced-motion: reduce) {
-    .steps-path path, .step--done:first-child .step-dot, .chip-dot, .step--current .step-dot { animation: none; }
+    .page-path path, .path-bulb, .chip-dot, .step--current .step-dot { animation: none; }
     .btn, .card { transition: none; }
 }
