@@ -3,8 +3,9 @@
  *
  * Stux.Digital's two-tone sky blue, straight from the logo: #38bdf8 on dark, #0369a1 on light.
  * The twist on the Stux.Group placeholder pages: everything sits in a browser window like the
- * one in the logo (its address bar shows where the page is served), a winding path runs behind
- * the page to a lightbulb, and progress steps show where the site is on its way online.
+ * one in the logo (its address bar shows where the page is served), the logo's winding path
+ * runs from a lightbulb behind the page and again through the progress steps, which show where
+ * the site is on its way online.
  * Theme: <html data-theme="dark|light">, set before paint from stuxdigital-theme or the system.
  */
 
@@ -82,30 +83,29 @@ code { font-family: var(--font-mono); font-size: 0.88em; background: var(--accen
 :root[data-theme="light"] .only-dark { display: none; }
 
 /* ── Background: soft sky glow and a dotted grid ── */
-/* The background path (site.js): the logo's winding dotted line from a glowing lightbulb, through
-   the progress steps where a page has them. It's drawn above the card but cut away under the bulb
-   and the step dots, so it reads as running into them. Pages without steps (legal, changelog…) keep
-   it behind the card, clear of the text. */
-.page-path { position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none; overflow: visible; }
-.page-path path {
-    fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 12;
-    animation: path-flow 9s linear infinite;
+/* Two copies of the logo's winding path (site.js), each from a lightbulb. The background one
+   starts at a glowing bulb in the top corner and winds down behind the card (wider screens only);
+   the steps' one is below, with .steps. */
+.bg-path {
+    position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0;
+    pointer-events: none; overflow: visible;
 }
-.page-path--behind, .path-bulb--behind { z-index: -1; }
-.page-path .track { stroke: rgba(var(--accent-rgb), 0.35); }
-.page-path .reached { stroke: var(--accent); }
+.bg-path path {
+    fill: none; stroke: rgba(var(--accent-rgb), 0.35); stroke-width: 3; stroke-linecap: round;
+    stroke-dasharray: 2 12; animation: path-flow 9s linear infinite;
+}
 @keyframes path-flow { to { stroke-dashoffset: -280; } }
-.path-bulb {
-    position: absolute; z-index: 4; pointer-events: none;
+.bg-bulb {
+    position: fixed; z-index: 0; pointer-events: none;
     display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
     color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(var(--accent-rgb), 0.4);
     box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.35);
     -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
     animation: bulb 3.2s ease-in-out infinite;
 }
-.path-bulb[hidden] { display: none; }
-.path-bulb .ico { width: 24px; height: 24px; }
+.bg-bulb .ico { width: 24px; height: 24px; }
 @keyframes bulb { 50% { box-shadow: 0 0 64px rgba(var(--accent-rgb), 0.6); } }
+@media (max-width: 640px) { .bg-path, .bg-bulb { display: none; } }
 .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .bg::before {
     content: ""; position: absolute; inset: 0;
@@ -204,13 +204,24 @@ h1 em {
 }
 .lede { color: var(--muted); font-size: 1.02rem; max-width: 470px; margin: 0 auto 28px; }
 
-/* Progress steps, which the background path winds through (see .page-path). Done, in progress
-   (pulsing), up next. */
+/* Progress steps on their own copy of the path: site.js draws it from the first step (the Idea
+   bulb, which glows like the background one) through every step to the last, brighter as far as
+   the current step. Done, in progress (pulsing), up next. */
 .steps {
     list-style: none; margin: 0 0 30px; padding: 0;
     display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
     position: relative;
 }
+.steps-path {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    overflow: visible; pointer-events: none;
+}
+.steps-path path {
+    fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 10;
+    animation: path-flow 9s linear infinite;
+}
+.steps-path .track { stroke: rgba(var(--accent-rgb), 0.32); }
+.steps-path .reached { stroke: var(--accent); }
 .step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .step-dot {
     display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
@@ -223,6 +234,12 @@ h1 em {
 .step--done .step-label { color: var(--muted); }
 .step--current .step-dot { border-color: var(--accent); color: var(--accent); animation: pulse 2s ease-out infinite; }
 .step--current .step-label { color: var(--accent-bright); }
+/* Where the steps' path starts: the Idea step glows, like the bulb in the logo. */
+.step--done:first-child .step-dot { animation: step-bulb 3.2s ease-in-out infinite; }
+@keyframes step-bulb {
+    0%, 100% { box-shadow: 0 0 0 5px var(--card), 0 0 18px rgba(var(--accent-rgb), 0.35); }
+    50% { box-shadow: 0 0 0 5px var(--card), 0 0 34px rgba(var(--accent-rgb), 0.65); }
+}
 
 .actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 .btn {
@@ -339,6 +356,6 @@ h1 em {
 .site-banners { --banner-page-bg: var(--bg); --banner-text: var(--text); --banner-site: #38bdf8; --banner-site-light: #0369a1; }
 
 @media (prefers-reduced-motion: reduce) {
-    .page-path path, .path-bulb, .chip-dot, .step--current .step-dot { animation: none; }
+    .bg-path path, .bg-bulb, .steps-path path, .step--done:first-child .step-dot, .chip-dot, .step--current .step-dot { animation: none; }
     .btn, .card { transition: none; }
 }

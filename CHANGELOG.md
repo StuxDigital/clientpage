@@ -5,6 +5,12 @@ All notable changes to clientpage are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-10-09
+
+### Changed
+
+- The logo's winding path now appears twice, as two separate copies instead of one path joining the background bulb to the steps (which showed two lightbulbs on one path). The background copy starts at its own glowing bulb in the top corner, cut cleanly at the bulb's edge, and winds down behind the card on every page (wider screens only). The steps' copy starts at the Idea step, which glows like a bulb, and winds through each step to the last, brighter as far as the current step
+
 ## [1.0.3] - 2026-10-09
 
 ### Added
