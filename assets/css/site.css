@@ -209,7 +209,7 @@ h1 em {
    the current step. Done, in progress (pulsing), up next. */
 .steps {
     list-style: none; margin: 0 0 30px; padding: 0;
-    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
+    display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px;
     position: relative;
 }
 .steps-path {
