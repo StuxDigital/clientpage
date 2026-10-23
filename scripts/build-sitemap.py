@@ -12,6 +12,8 @@ import html
 import subprocess
 from pathlib import Path
 
+import discord_embed as de
+
 ROOT = Path(__file__).resolve().parent.parent
 HOST = (ROOT / "CNAME").read_text(encoding="utf-8").strip()
 BASE_URL = "https://" + HOST
@@ -69,6 +71,7 @@ def build_html(title):
                 .replace(f"<span data-current-path>{HOST}/legal</span>", f"<span data-current-path>{HOST}/sitemap/</span>"))
     ds = head.index('<meta name="description" content="') + len('<meta name="description" content="')
     head = head[:ds] + "Every page on this Stux.Digital site, with a link to the XML sitemap." + head[head.index('">', ds):]
+    head = de.inject(head, de.page_tag("Sitemap", "Every page on this Stux.Digital site, with a link to the XML sitemap.", "/sitemap/"))
     cards = []
     for loc, _src, label, desc, _p, _f in PAGES:
         cards.append(f'                    <a class="card" href="{html.escape(loc)}"><span class="card-url">{html.escape(BASE_URL + loc)}</span>'

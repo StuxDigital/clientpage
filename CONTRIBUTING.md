@@ -51,6 +51,8 @@ the page exactly as production does.
 All six live under `legal/` (`privacy`, `terms`, `cookies`, `imprint`, `disclaimer`, `opt-out`),
 linked from the **Boring Legal Stuff** hub at `legal.html`. Keep them in sync with what the page
 actually does.
+- Each page except 404 carries a Discord link preview (`discord:component-embed`) built from its `<title>` and meta description: after changing either, run `python scripts/build-embeds.py`. The Stux.Digital colour, icon and home-page text live in `scripts/discord_embed.py`. Keep the 404 page free of it, and keep each embed under 3,000 bytes.
+- Favicons are `favicon.ico`, `apple-touch-icon.png`, `site.webmanifest` and `assets/img/icon-*.png`, made from the Stux.Digital icon; every `<head>` carries the same four icon tags (see `tests/site.sh`).
 
 ## Versioning
 
@@ -58,7 +60,7 @@ This project uses [Date Versioning](https://datevers.ing). To release:
 
 1. Add a `## vYY.MM.DD` entry at the top of `CHANGELOG.md`, with its sections in this order: Added, Changed, Fixed, Removed, Security, Deprecated.
 2. Set `VERSION.md` to the same bare version (no `v`): today's **UTC** date as `YY.MM.DD`, or `YY.MM.DD-1`, `-2`… for later releases the same UTC day. Never a future date. Use UTC, not local time: just after midnight in the UK it is still the previous day in UTC.
-3. Run `bash tests/version.sh`.
+3. Run `bash tests/version.sh` and `bash tests/site.sh`.
 4. Run `./commit.sh` (or `commit.bat` on Windows). It checks the version, commits and tags `vYY.MM.DD`, and never pushes.
 
 ## Before committing

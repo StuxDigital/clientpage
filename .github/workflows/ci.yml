@@ -21,7 +21,7 @@ jobs:
       - name: Key files exist
         run: |
           set -euo pipefail
-          for f in index.html 404.html changelog.html legal.html legal/privacy.html legal/terms.html legal/cookies.html legal/imprint.html legal/disclaimer.html legal/opt-out.html sitemap/index.html sitemap.xml robots.txt CNAME assets/css/site.css assets/js/site.js assets/js/changelog.js assets/dev-mode.js README.md CHANGELOG.md VERSION.md CONTRIBUTING.md commit.sh commit.bat dev-server.sh dev-server.bat; do
+          for f in index.html 404.html changelog.html legal.html legal/privacy.html legal/terms.html legal/cookies.html legal/imprint.html legal/disclaimer.html legal/opt-out.html sitemap/index.html sitemap.xml robots.txt CNAME favicon.ico apple-touch-icon.png site.webmanifest assets/css/site.css assets/js/site.js assets/js/changelog.js assets/dev-mode.js README.md CHANGELOG.md VERSION.md CONTRIBUTING.md commit.sh commit.bat dev-server.sh dev-server.bat; do
             if [ ! -f "$f" ]; then echo "::error::Missing $f"; exit 1; fi
           done
 
@@ -34,6 +34,7 @@ jobs:
       - name: Version and changelog tests
         run: |
           bash tests/version.sh
+          bash tests/site.sh
           node tests/changelog.test.js
 
       - name: Validate HTML

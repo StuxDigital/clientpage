@@ -5,6 +5,18 @@ All notable changes to clientpage are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Date Versioning](https://datevers.ing) since v26.10.23 (`YY.MM.DD`, the UTC release date, with `-1`, `-2`… for later releases the same day); earlier releases used [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v26.10.23-1
+
+### Added
+
+- A Discord link preview for every page except the 404 page: a `discord:component-embed` in each `<head>` with the page's name and description, Stux.Digital's colour and icon, and a link back to Stux.Digital. The Open Graph and other tags are unchanged. `python scripts/build-embeds.py` writes them from each page's `<title>` and meta description, and `scripts/build-sitemap.py` does the same for the sitemap page
+- A full favicon set at the web root: `favicon.ico` (16, 32 and 48), `apple-touch-icon.png` (180) and `site.webmanifest`, with 192, 512 and maskable 512 icons in `assets/img/`, all made from the Stux.Digital icon. The same four tags are in every page's `<head>`
+- `tests/site.sh`, which checks that every Discord embed is valid JSON under 3,000 bytes, that the 404 page has none, that the favicon files have the right sizes, and that every `<head>` has the favicon tags
+
+### Changed
+
+- The favicon is now served from this site instead of following the browser's light or dark theme from the media host, so it is the same everywhere (browser tab, home screen, bookmarks)
+
 ## v26.10.23
 
 ### Added
