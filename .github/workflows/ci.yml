@@ -31,6 +31,11 @@ jobs:
           V="$(tr -d '[:space:]' < VERSION.md)"
           grep -Eq "^## \\[?v?${V//./\\.}\\]?([[:space:]]|$)" CHANGELOG.md || { echo "::error::CHANGELOG.md has no release heading for $V"; exit 1; }
 
+      - name: Version and changelog tests
+        run: |
+          bash tests/version.sh
+          node tests/changelog.test.js
+
       - name: Validate HTML
         run: npx --yes html-validate@8 index.html 404.html changelog.html legal.html legal/*.html sitemap/index.html
 
