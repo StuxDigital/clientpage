@@ -13,3 +13,4 @@ Thumbs.db
 
 # Tooling
 node_modules/
+__pycache__/

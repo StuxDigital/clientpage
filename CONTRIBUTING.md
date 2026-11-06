@@ -2,9 +2,9 @@
   <picture><source media="(prefers-color-scheme: dark)" srcset="https://global.media.stux.digital/logo-light.png"><source media="(prefers-color-scheme: light)" srcset="https://global.media.stux.digital/logo-dark.png"><img src="https://global.media.stux.digital/logo-dark.png" height="80" alt="Stux.Digital Logo"></picture>
 </p>
 
-# Contributing to clientpage
+# Contributing to Stux.Digital Clientpage
 
-`clientpage` is the Stux.Digital placeholder for a client site that isn't live yet at [clientpage.stux.digital](https://clientpage.stux.digital), part of the
+Stux.Digital Clientpage (`clientpage`) is the Stux.Digital placeholder for a client site that isn't live yet at [clientpage.stux.digital](https://clientpage.stux.digital), part of the
 Stux.Group Brand of Companies. The repository isn't open to public pull requests, and it isn't
 licensed for reuse (see [LICENSE](LICENSE)). This document is for anyone with write access.
 
@@ -33,9 +33,10 @@ the page exactly as production does.
   `--accent #38bdf8`; light `--bg #f3f8fc`, `--accent #0369a1`), the browser window
   (`.browser`), the background path and lightbulb (`.bg`), and the progress steps (`.steps`, each
   `step--done`, `step--current` or `step--next`). Shared behaviour is in `assets/js/site.js`.
-- **The Stux.Digital pages share this kit**: `clientpage`, `soonpage` and `maintenancepage` use
-  the same stylesheet and scripts with their own copy and steps. Keep a change to the kit in step
-  across all three.
+- **The Stux.Digital pages share this kit**: Stux.Digital Clientpage, Soonpage and Maintenancepage
+  use the same `site.css`, `site.js` and site banners, with their own copy and steps. Keep a change
+  to the kit in step across all three. Their head-tag scripts, tests and icon paths differ, so
+  follow each repo's own sections below for those.
 - The address bar shows the real host and path (`data-current-host`, `data-current-path`), since
   a placeholder page is often served on someone else's domain.
 - Theme: the `<head>` script sets `<html data-theme>` before paint from `localStorage`
@@ -51,6 +52,9 @@ the page exactly as production does.
 All six live under `legal/` (`privacy`, `terms`, `cookies`, `imprint`, `disclaimer`, `opt-out`),
 linked from the **Boring Legal Stuff** hub at `legal.html`. Keep them in sync with what the page
 actually does.
+
+## Discord previews and icons
+
 - Each page except 404 carries a Discord link preview (`discord:component-embed`) built from its `<title>` and meta description: after changing either, run `python scripts/build-embeds.py`. The Stux.Digital colour, icon and home-page text live in `scripts/discord_embed.py`. Keep the 404 page free of it, and keep each embed under 3,000 bytes.
 - Favicons are `favicon.ico`, `apple-touch-icon.png`, `site.webmanifest` and `assets/img/icon-*.png`, made from the Stux.Digital icon; every `<head>` carries the same four icon tags (see `tests/site.sh`).
 
@@ -60,7 +64,7 @@ This project uses [Date Versioning](https://datevers.ing). To release:
 
 1. Add a `## vYY.MM.DD` entry at the top of `CHANGELOG.md`, with its sections in this order: Added, Changed, Fixed, Removed, Security, Deprecated.
 2. Set `VERSION.md` to the same bare version (no `v`): today's **UTC** date as `YY.MM.DD`, or `YY.MM.DD-1`, `-2`… for later releases the same UTC day. Never a future date. Use UTC, not local time: just after midnight in the UK it is still the previous day in UTC.
-3. Run `bash tests/version.sh` and `bash tests/site.sh`.
+3. Run `bash tests/version.sh`, `bash tests/site.sh` and `node tests/changelog.test.js`.
 4. Run `./commit.sh` (or `commit.bat` on Windows). It checks the version, commits and tags `vYY.MM.DD`, and never pushes.
 
 ## Before committing
