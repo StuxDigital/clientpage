@@ -2,7 +2,7 @@
   <picture><source media="(prefers-color-scheme: dark)" srcset="https://global.media.stux.digital/logo-light.png"><source media="(prefers-color-scheme: light)" srcset="https://global.media.stux.digital/logo-dark.png"><img src="https://global.media.stux.digital/logo-dark.png" height="100" alt="Stux.Digital Logo"></picture>
 </p>
 
-# clientpage
+# Stux.Digital Clientpage
 
 ### *From idea to online.*
 
