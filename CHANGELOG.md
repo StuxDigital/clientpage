@@ -5,6 +5,12 @@ All notable changes to clientpage are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Date Versioning](https://datevers.ing) since v26.10.23 (`YY.MM.DD`, the UTC release date, with `-1`, `-2`… for later releases the same day); earlier releases used [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v26.11.06-1
+
+### Fixed
+
+- CI passes again: `.htmlvalidate.json` sets `valid-id` to relaxed, so html-validate accepts the `discord:component-embed` id that Discord's link previews need. CI had failed on every release since v26.10.23-1, when the previews were added; the live pages were never affected
+
 ## v26.11.06
 
 ### Changed

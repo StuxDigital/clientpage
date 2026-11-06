@@ -4,6 +4,7 @@
     "no-inline-style": "off",
     "attr-quotes": "off",
     "no-implicit-button-type": "off",
-    "long-title": "off"
+    "long-title": "off",
+    "valid-id": ["error", { "relaxed": true }]
   }
 }
