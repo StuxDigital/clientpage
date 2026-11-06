@@ -42,4 +42,4 @@ else
     echo "Tagged v${VERSION}."
 fi
 
-echo "Push with: git push origin main --tags"
+echo "Push with: git push origin test --tags, then open a pull request from test into main"
