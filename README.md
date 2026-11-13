@@ -56,4 +56,4 @@ Made by [Stux.Digital](https://github.com/StuxDigital)
 
 *Stux.Digital is part of the [Stux.Group](https://github.com/StuxGroup) Brand of Companies.*
 
-Stux.Digital is operated by Stux Group Ltd, a company registered in England and Wales (company no. 13160574), registered office 124 City Road, London, EC1V 2NX, England.
+Stux.Digital is operated by Stux Group Ltd, a company registered in England and Wales (company no. 13160574), registered office 124 City Road, London, EC1V 2NX, England, United Kingdom.
