@@ -8,6 +8,17 @@ REM stale the way a hardcoded version number does.
 set "DIR=%~dp0"
 set /p VERSION=<"%DIR%VERSION.md"
 
+REM Releases are made on test (or a branch off it). staging and main only change through
+REM pull requests: test -> staging -> main.
+for /f "delims=" %%b in ('git -C "%~dp0." rev-parse --abbrev-ref HEAD') do set "BRANCH=%%b"
+if "%BRANCH%"=="main" goto wrongbranch
+if "%BRANCH%"=="staging" goto wrongbranch
+goto branchok
+:wrongbranch
+echo You're on %BRANCH%. Releases are made on test, then go test -^> staging -^> main through pull requests: git switch test
+exit /b 1
+:branchok
+
 REM Date Versioning (https://datevers.ing): the UTC release date as YY.MM.DD, plus -1, -2... for later releases that day
 powershell -NoProfile -Command "$v = '%VERSION%'.Trim(); if ($v -notmatch '^\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12]\d|3[01])(-[1-9]\d*)?$') { exit 1 }; $d = $v.Split('-')[0]; $p = [DateTime]::MinValue; if (-not [DateTime]::TryParseExact($d, 'yy.MM.dd', [Globalization.CultureInfo]::InvariantCulture, 'None', [ref]$p)) { exit 1 }; $t = [DateTime]::UtcNow.ToString('yy.MM.dd'); if ($d -gt $t) { exit 2 }; if ($d -lt $t) { exit 3 }; exit 0"
 if errorlevel 3 (
@@ -36,4 +47,6 @@ if errorlevel 1 (
     echo Tag v%VERSION% already exists - skipping.
 )
 
-echo Push with: git push origin test --tags, then open a pull request from test into main
+echo Push with: git push origin %BRANCH% --tags
+echo Then open a pull request into staging: gh pr create --base staging --head %BRANCH%
+echo Once staging is checked, open one from staging into main: gh pr create --base main --head staging
