@@ -34,6 +34,7 @@ and the logo's winding path runs behind the page to a lightbulb.
 ```bash
 ./dev-server.sh               # http://127.0.0.1:8000, DEV_MODE on (dev banner)
 ./dev-server.sh 8080 --no-dev-mode
+./dev-server.sh --lan         # also reachable from phones on your network
 ```
 
 On Windows, use `dev-server.bat`. PHP is only the local web server (7.4, like the other Stux

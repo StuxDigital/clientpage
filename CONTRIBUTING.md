@@ -24,7 +24,7 @@ GitHub Pages does (`/legal` → `legal.html`, the 404 page for missing paths) th
 else `%LOCALAPPDATA%\Programs\PHP\7.4\php.exe`, else `php`). DEV_MODE is on by default: the router
 answers `/assets/dev-mode.js` with `window.SITE_DEV_MODE = true`, so every page shows the dev
 banner, and `?banner=soon,maintenance,site` previews the other banners. Pass `--no-dev-mode` to see
-the page exactly as production does.
+the page exactly as production does. `--lan` listens on all interfaces instead of `127.0.0.1` only, so a phone or tablet on the same network can open the site; the script prints the addresses to try (usually the `192.168.x.x` one), and you may need to allow PHP through the firewall.
 
 ## Project conventions
 

@@ -5,6 +5,16 @@ All notable changes to clientpage are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Date Versioning](https://datevers.ing) since v26.10.23 (`YY.MM.DD`, the UTC release date, with `-1`, `-2`… for later releases the same day); earlier releases used [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v26.11.15
+
+### Added
+
+- `dev-server.sh` / `dev-server.bat` take `--lan`: the server listens on all interfaces instead of `127.0.0.1` only, so phones and other devices on the local network can open it, and it prints the address to open for each of the machine's IPv4 addresses, with a hint that it's usually the `192.168.x.x` one and to allow PHP through the firewall if asked. Without it, the server stays on `127.0.0.1`. `README.md` and `CONTRIBUTING.md` document it
+
+### Fixed
+
+- `dev-server.bat` reads the PHP version again. It always printed "PHP " with no version and warned that it wasn't 7.4, because `for /f` dropped the quotes around the PHP path
+
 ## v26.11.13-1
 
 ### Fixed
